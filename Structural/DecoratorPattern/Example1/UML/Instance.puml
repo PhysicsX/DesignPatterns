@@ -1,13 +1,69 @@
 @startuml
 
-Instance <|-- VulkanRootObject
+Interface <|-- A
+Interface o-- D
+Interface <|-- D
+D <|-- X
+D <|-- Y
+D <|-- Z
 
-class Instance {
+note "wrappee->foo()" as n1
+D -right-> n1
+
+class Interface
+{
     -- Contructors & destructors --
-    - Instance()
+    - Interface()
     
     -- Public methods --
-    + Initialize() : bool
+    + foo() : virtual void
 }
+
+class A
+{
+    -- Contructors & destructors --
+    - A()
+    
+    -- Public methods --
+    + foo() : virtual void
+}
+
+class D
+{
+    -- Contructors & destructors --
+    - D()
+    
+    -- Public methods --
+    + foo() : virtual void
+}
+
+
+class X
+{
+    -- Contructors & destructors --
+    - X()
+    
+    -- Public methods --
+    + foo() : virtual void
+}
+
+class Y
+{
+    -- Contructors & destructors --
+    - Y()
+    
+    -- Public methods --
+    + foo() : virtual void
+}
+
+class Z
+{
+    -- Contructors & destructors --
+    - Z()
+    
+    -- Public methods --
+    + foo() : virtual void
+}
+
 
 @enduml
