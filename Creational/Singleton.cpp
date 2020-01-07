@@ -55,6 +55,9 @@ std::unique_ptr<Singleton>& Singleton::getInstance()
 
 int main()
 {
+
+	//std::unique_ptr<Singleton> s = std::make_unique<Singleton>; //Error	
+
 	std::unique_ptr<Singleton> &p = Singleton::getInstance();
 	p->setX(1);
 	std::cout<<"X: "<<p->getX()<<std::endl;
