@@ -1,11 +1,16 @@
 @startuml
 
-Interface <|-- A
-Interface o-- D
-Interface <|-- D
-D <|-- X
-D <|-- Y
-D <|-- Z
+Interface <|-- A: Inheritance
+/'Interface o-- D'/
+Interface <-- D: Association
+Interface <|-- D: Inheritance
+D <|-- X: Inheritance
+D <|-- Y: Inheritance
+D <|-- Z: Inheritance
+
+D <.. X: Dependency
+D <.. Y: Dependency
+D <.. Z: Dependency
 
 note "wrappee->foo()" as n1
 D -right-> n1
