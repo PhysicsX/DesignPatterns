@@ -1,9 +1,8 @@
 @startuml
 
 Interface <|-- A: Inheritance
-
-Interface <-- D: Association
 Interface o-- D: Aggregation
+Interface <-- D: Association
 Interface <|-- D: Inheritance
 D <|-- X: Inheritance
 D <|-- Y: Inheritance
