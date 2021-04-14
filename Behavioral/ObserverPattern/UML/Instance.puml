@@ -1,0 +1,28 @@
+@startuml
+class ISubject<< Interface >>{
++void {abstract} addObs(IObserver* ob))
++void {abstract} deleteObs(IObserver* ob)
++void {abstract} notifyObs()
+}
+
+class Subject << Concrete >>{
+std::list<IObserver*> m_obs;
+}
+note left: Subjcet updates the clients/observers 
+
+class IObserver<< Interface >>{
++void {abstract} update(int data)
+}
+
+class Observer << Concrete >>{
+Observer(ISubject& a)
+}
+
+
+
+ISubject<|-- Subject
+
+IObserver o-- Subject
+
+IObserver <|-- Observer
+@enduml
