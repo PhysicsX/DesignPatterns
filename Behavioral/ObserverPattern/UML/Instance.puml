@@ -20,9 +20,9 @@ Observer(ISubject& a)
 
 
 
-ISubject<|-- Subject
+ISubject<|.. Subject
 
 IObserver o-- Subject
 
-IObserver <|-- Observer
+IObserver <|.. Observer
 @enduml
