@@ -1,0 +1,34 @@
+@startuml
+
+class observerIf<<Interface>>
+{
++ {abstract} update(): void
+}
+
+class concObserver  << Concrete >>{
++ concObserver(subjectIf* sbj)
+- mSbj: subjectIf*
+}
+observerIf <|.. concObserver
+
+class subjectIf<<Interface>>
+{
++ {abstract} remove(observerIf* obs) : void 
++ {abstract} addObs(observerIf* obs) : void
++ {abstract} notify(observerIf* obs) : void
+# mListObs: std::vector<observerIf*>
+}
+
+class subject{
++ addObs(IObserver* ob)) : void 
++ deleteObs(IObserver* ob) : void
+# notifyObs() : void
+}
+
+subjectIf <|.. subject
+
+subjectIf o-- concObserver
+
+observerIf o---right-> subjectIf 
+
+@enduml
