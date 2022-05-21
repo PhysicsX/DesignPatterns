@@ -1,0 +1,38 @@
+@startuml
+
+class observerIf<<Interface>>
+{
++ {abstract} update(): void
+}
+
+class concObserver  << Concrete >>{
++ concObserver(function<void(observerIf*)>& remove,
+function<void(observerIf*)>& add)
+- mCallbackRemove : std::function<void(observerIf*)>&
+- mCallbackAdd : std::function<void(observerIf*)>&
+
+}
+observerIf <|.. concObserver
+
+note left: concObserver has function pointer \nto add and remove to observer list.\nIt removes itself in the constructor
+
+
+class subjectIf<<Interface>>
+{
++ {abstract} remove(observerIf* obs) : void 
++ {abstract} addObs(observerIf* obs) : void
++ {abstract} notify(observerIf* obs) : void
+# mListObs: std::vector<observerIf*>
+}
+
+class subject{
++ addObs(IObserver* ob)) : void 
++ deleteObs(IObserver* ob) : void
+# notifyObs() : void
+}
+
+subjectIf <|.. subject
+
+observerIf o--right-> subjectIf 
+
+@enduml
