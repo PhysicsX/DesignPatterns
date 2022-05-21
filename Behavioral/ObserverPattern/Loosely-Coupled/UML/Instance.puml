@@ -14,7 +14,7 @@ function<void(observerIf*)>& add)
 }
 observerIf <|.. concObserver
 
-note left: concObserver has function pointer \nto add and remove to observer list.\nIt removes itself in the constructor
+note left: concObserver has function pointers \nto add and to remove \nitself from the observer list.\nIt removes itself in the desctructor\nand adds in const
 
 
 class subjectIf<<Interface>>
