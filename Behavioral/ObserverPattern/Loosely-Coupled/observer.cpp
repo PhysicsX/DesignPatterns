@@ -22,6 +22,8 @@ class subjectIf
 
     virtual void notify() = 0;
 
+    virtual ~subjectIf(){};
+
     protected:
     std::vector<observerIf*> mListObs;
 };
@@ -49,6 +51,8 @@ class subject : public subjectIf
             mListObs.erase(position);
         }
     }
+
+    ~subject(){}
 };
 
 class concObserver : public observerIf
