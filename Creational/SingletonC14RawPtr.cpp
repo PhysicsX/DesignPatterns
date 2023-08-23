@@ -41,7 +41,7 @@ class Singleton
 
 int main()
 {
-	//std::unique_ptr<Singleton> s = std::make_unique<Singleton>; //Error	
+	//Singleton* s = new Singleton(); //Error	
     {
 	Singleton* p = Singleton::getInstance();
     }
