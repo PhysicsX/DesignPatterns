@@ -23,8 +23,6 @@ class Singleton
 		
 	static std::unique_ptr<Singleton>& getInstance();
 
-	~Singleton(){std::lock_guard<std::mutex> guard(m);}
-
 	void setX(int x)
 	{
 		std::lock_guard<std::mutex> guard(m);
