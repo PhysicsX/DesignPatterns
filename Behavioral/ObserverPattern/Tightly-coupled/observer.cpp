@@ -28,9 +28,6 @@ class subjectIf
     virtual void notify() = 0;
 
     virtual ~subjectIf(){};
-
-    protected:
-    std::vector<observerIf*> mListObs;
 };
 
 class subject : public subjectIf
@@ -59,6 +56,9 @@ class subject : public subjectIf
         for(auto s : mListObs)
             s->update();
     }
+
+    private:
+    std::vector<observerIf*> mListObs;
 };
 
 class concObserver : public observerIf
@@ -78,7 +78,6 @@ class concObserver : public observerIf
     subjectIf* mSbj;
 };
 
-
 int main()
 {
     subjectIf* sbj = new subject;
@@ -87,6 +86,7 @@ int main()
     //sbj->addObs(obs1);
     sbj->notify();
 
+    delete obs1;
     delete sbj;
     std::cout<<"end"<<std::endl;
 }
