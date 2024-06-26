@@ -2,6 +2,7 @@
 #include <functional>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 class observerIf
 {
@@ -25,9 +26,6 @@ class subjectIf
     virtual std::function<void(observerIf*)>& addObsCallback() = 0;
 
     virtual ~subjectIf(){};
-
-    protected:
-    std::vector<observerIf*> mListObs;
 };
 
 class subject : public subjectIf
@@ -66,7 +64,6 @@ class subject : public subjectIf
         return mCallbackAdd;
     }
 
-
     void remove(observerIf* obs)
     {   
         std::vector<observerIf*>::iterator position = std::find(mListObs.begin(), mListObs.end(), obs);
@@ -83,6 +80,9 @@ class subject : public subjectIf
 
     std::function<void(observerIf*)> mCallbackRemove;
     std::function<void(observerIf*)> mCallbackAdd;
+
+    private:
+    std::vector<observerIf*> mListObs;
 };
 
 class concObserver : public observerIf
@@ -111,7 +111,6 @@ class concObserver : public observerIf
 
     std::function<void(observerIf*)>& mCallbackRemove;
     std::function<void(observerIf*)>& mCallbackAdd;
-
 };
 
 int main()
