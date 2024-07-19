@@ -15,10 +15,6 @@ class subjectIf
 {
     public:
 
-    virtual void remove(observerIf* obs) = 0;
-
-    virtual void addObs(observerIf* obs) = 0;
-
     virtual void notify() = 0;
 
     // return callback functions for remove and add
@@ -33,10 +29,6 @@ class subject : public subjectIf
     public:
     subject():mCallbackRemove{std::bind(&subject::remove, this, std::placeholders::_1)},
               mCallbackAdd{std::bind(&subject::addObs, this, std::placeholders::_1)}{}
-    void addObs(observerIf* obs)
-    {
-        mListObs.push_back(obs);
-    }
     
     void notify()
     {   
@@ -64,15 +56,6 @@ class subject : public subjectIf
         return mCallbackAdd;
     }
 
-    void remove(observerIf* obs)
-    {   
-        std::vector<observerIf*>::iterator position = std::find(mListObs.begin(), mListObs.end(), obs);
-        if (position != mListObs.end())
-        {
-            mListObs.erase(position);
-        }
-    }
-
     ~subject()
     {
         std::cout<<"subject is destroyed"<<std::endl;
@@ -83,6 +66,21 @@ class subject : public subjectIf
 
     private:
     std::vector<observerIf*> mListObs;
+
+
+    void addObs(observerIf* obs)
+    {
+        mListObs.push_back(obs);
+    }
+
+    void remove(observerIf* obs)
+    {
+        std::vector<observerIf*>::iterator position = std::find(mListObs.begin(), mListObs.end(), obs);
+        if (position != mListObs.end())
+        {
+            mListObs.erase(position);
+        }
+    }
 };
 
 class concObserver : public observerIf
@@ -96,7 +94,8 @@ class concObserver : public observerIf
         mCallbackAdd(this);
     }
 
-    void update(){
+    void update()
+    {
         std::cout<<"concObserverCall4 is updated"<<std::endl;
     }
 
