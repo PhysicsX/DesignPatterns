@@ -67,6 +67,8 @@ private:
 
     std::function<void(std::shared_ptr<observerIf>)> mCallbackRemove;
     std::function<void(std::shared_ptr<observerIf>)> mCallbackAdd;
+    // list has observers with ownership, if observer wants to be deleted then
+    // it must be deleted from the list
     std::vector<std::shared_ptr<observerIf>> mListObs;
 };
 
@@ -92,12 +94,15 @@ public:
                 : concObserver(remove, add) {}
         };
 
-        auto observer = std::make_shared<make_shared_enabler>(remove, add);
-        observer->initialize(observer);
+        // Step 1: Create a temporary shared_ptr to the object without a custom deleter
+        auto tempPtr = std::make_shared<make_shared_enabler>(remove, add);
 
-        // Attach custom deleter that only removes the observer from the subject
-        return std::shared_ptr<concObserver>(observer.get(), [remove](concObserver* ptr) {
-            // Call the remove callback
+        // Step 2: Initialize the object after it is fully managed by a shared_ptr
+        tempPtr->initialize(tempPtr);
+
+        // Step 3: Create the final shared_ptr with the custom deleter
+        return std::shared_ptr<concObserver>(tempPtr.get(), [remove](concObserver* ptr) {
+            // Custom deleter calls the remove callback
             remove(ptr->shared_from_this());
         });
     }
