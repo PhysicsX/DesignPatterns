@@ -21,8 +21,13 @@ public:
 };
 
 // Subject implementation
-class subject : public subjectIf {
+class subject : public subjectIf, public std::enable_shared_from_this<subject> {
 public:
+    // Use std::make_shared to create and return a shared_ptr to subject
+    static std::shared_ptr<subject> create() {
+        return std::make_shared<subject>();
+    }
+
     subject()
         : mCallbackRemove{ std::bind(&subject::remove, this, std::placeholders::_1) },
           mCallbackAdd{ std::bind(&subject::addObs, this, std::placeholders::_1) } {}
@@ -128,14 +133,14 @@ private:
     std::function<void(std::shared_ptr<observerIf>)>& mCallbackAdd;
 };
 
+// Main function
 int main() {
-    auto sbj = std::make_shared<subject>();
+    auto sbj = subject::create();  // Now using the `create` method with make_shared
 
     {
         std::cout << "Create concObserver" << std::endl;
         auto obsCall = concObserver::create(sbj->removeCallback(), sbj->addObsCallback());
         sbj->notify(); // The observer should be notified here.
-
     } // `obsCall` goes out of scope here, and the observer object is destroyed.
 
     sbj->notify(); // The observer is no longer valid, so it won't be notified.
