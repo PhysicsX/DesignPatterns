@@ -23,14 +23,15 @@ public:
 // Subject implementation
 class subject : public subjectIf, public std::enable_shared_from_this<subject> {
 public:
-    // Use std::make_shared to create and return a shared_ptr to subject
-    static std::shared_ptr<subject> create() {
-        return std::make_shared<subject>();
+   // Use std::make_shared to create and return a shared_ptr to subject
+    static std::shared_ptr<subject> create()
+    {
+        struct make_shared_enabler : public subject
+        {
+            using subject::subject; // Inherit constructors from `subject`
+        };
+        return std::make_shared<make_shared_enabler>();
     }
-
-    subject()
-        : mCallbackRemove{ std::bind(&subject::remove, this, std::placeholders::_1) },
-          mCallbackAdd{ std::bind(&subject::addObs, this, std::placeholders::_1) } {}
 
     void notify() override {
         if (mListObs.empty()) {
@@ -57,6 +58,10 @@ public:
     }
 
 private:
+    subject()
+        : mCallbackRemove{ std::bind(&subject::remove, this, std::placeholders::_1) },
+          mCallbackAdd{ std::bind(&subject::addObs, this, std::placeholders::_1) } {}
+
     void addObs(const std::shared_ptr<observerIf>& obs) {
         std::cout << "Observer added" << std::endl;
         mListObs.push_back(obs);
